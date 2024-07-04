@@ -1,0 +1,5 @@
+numpy=1.21.6
+opencv-python=4.5.4.58
+torch=2.0.1
+torchvision=0.15.2
+pycuda=2022.2.2
