@@ -66,3 +66,4 @@ When you run the command, you will see the following output:
 This project is based on the following projects:
 - [Depth-Anything-v2](https://github.com/DepthAnything/Depth-Anything-V2) - Depth-Anything-V2-Small model.
 - [TensorRT](https://github.com/NVIDIA/TensorRT/tree/release/8.6/samples) - TensorRT samples and api documentation.
+- [yuvraj108c/Depth-Anything-2-Onnx](https://huggingface.co/yuvraj108c/Depth-Anything-2-Onnx/tree/main) - Depth-Anything-2-Onnx model.
