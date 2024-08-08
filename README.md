@@ -9,6 +9,9 @@
 *: This repository is just for onnx2tensorrt of Depth Anything v2.
 </div>
 
+## News
+- 2024-08-08: Removed dependencies related to torch. Now you can only use it with numpy and opencv.
+
 ## Requirments
 
 * python 3.8.8
