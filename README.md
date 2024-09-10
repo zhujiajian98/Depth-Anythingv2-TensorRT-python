@@ -11,6 +11,7 @@
 
 ## News
 - 2024-08-08: Removed dependencies related to torch. Now you can only use it with numpy and opencv.
+- 2024-09-10: Accelerate the preprocess of Depth-Anything v2 by removing the unnecessary steps.
 
 ## Requirments
 

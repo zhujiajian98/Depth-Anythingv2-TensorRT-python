@@ -3,6 +3,7 @@ import cv2
 import math
 from typing import Tuple
 
+
 class Compose(object):
     def __init__(self, transforms):
         self.transforms = transforms
@@ -24,6 +25,7 @@ class NormalizeImage(object):
         sample["image"] = (sample["image"] - self.__mean) / self.__std
         return sample
 
+
 class PrepareForNet(object):
     """Prepare sample for usage as network input."""
 
@@ -34,16 +36,17 @@ class PrepareForNet(object):
         if "mask" in sample:
             sample["mask"] = sample["mask"].astype(np.float32)
             sample["mask"] = np.ascontiguousarray(sample["mask"])
-        
+
         if "depth" in sample:
             depth = sample["depth"].astype(np.float32)
             sample["depth"] = np.ascontiguousarray(depth)
-            
+
         if "semseg_mask" in sample:
             sample["semseg_mask"] = sample["semseg_mask"].astype(np.float32)
             sample["semseg_mask"] = np.ascontiguousarray(sample["semseg_mask"])
 
         return sample
+
 
 def apply_min_size(sample, size, image_interpolation_method=cv2.INTER_AREA):
     """Rezise the sample to ensure the given size. Keeps aspect ratio."""
@@ -77,6 +80,7 @@ def apply_min_size(sample, size, image_interpolation_method=cv2.INTER_AREA):
     sample["mask"] = sample["mask"].astype(bool)
 
     return tuple(shape)
+
 
 class Resize(object):
     """Resize sample to given size (width, height)."""
@@ -126,7 +130,9 @@ class Resize(object):
                 else:
                     scale_width = scale_height
             else:
-                raise ValueError(f"resize_method {self.__resize_method} not implemented")
+                raise ValueError(
+                    f"resize_method {self.__resize_method} not implemented"
+                )
 
         if self.__resize_method == "lower_bound":
             new_height = self.constrain_to_multiple_of(
@@ -179,9 +185,9 @@ class Resize(object):
                 sample["semseg_mask"] = cv2.resize(
                     sample["semseg_mask"].astype(np.float32),
                     (width, height),
-                    interpolation=cv2.INTER_NEAREST
+                    interpolation=cv2.INTER_NEAREST,
                 )
-                
+
             if "mask" in sample:
                 sample["mask"] = cv2.resize(
                     sample["mask"].astype(np.float32),
@@ -194,12 +200,13 @@ class Resize(object):
 
 def load_image(image) -> Tuple[np.ndarray, Tuple[int, int]]:
     orig_shape = image.shape[:2]
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) / 255.0
+    # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) / 255.0
+    image = image.astype(np.float32) / 255.0
     image = transform({"image": image})["image"]  # C, H, W
     image = image[np.newaxis, ...]  # B, C, H, W
     return image, orig_shape
 
-    
+
 transform = Compose(
     [
         Resize(
@@ -211,7 +218,7 @@ transform = Compose(
             resize_method="lower_bound",
             image_interpolation_method=cv2.INTER_CUBIC,
         ),
-        NormalizeImage(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        # NormalizeImage(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         PrepareForNet(),
     ]
 )
