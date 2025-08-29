@@ -4,7 +4,6 @@ from utils_function import load_image
 import argparse
 import os
 import platform
-from loguru import logger
 
 
 if platform.system() != "Darwin":
@@ -65,7 +64,7 @@ class Dpt:
                 self._stream,
             ) = self._allocate_buffers(self._context)
 
-        logger.info("Dpt model <loaded>...")
+        print("Dpt model <loaded>...")
 
     def _load_engine(self, trt_file):
         """
